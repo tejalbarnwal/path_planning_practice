@@ -13,7 +13,11 @@ def map_creator():
 
   grid_length = 500
   grid_width = 500
-  meter_per_pixel = 50
+
+  world_grid_length = 10
+  world_grid_width = 10
+
+  meter_per_pixel = int (grid_length / world_grid_length)
 
   grid = np.ones((grid_length , grid_width))
   # grid = np.random.rand(grid_length , grid_width)

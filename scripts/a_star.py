@@ -16,7 +16,7 @@ class PathPlanner:
 		self.theta = theta #
 		self.goal = goal #
 		print("map done! Planning initializing")
-
+		self.path = None
 		# making nodes
 		# add_neighbours
 	def a_star(self , start , end , grid):
@@ -42,8 +42,33 @@ class PathPlanner:
 
 			if (current == end):
 				print("PATH PLANNED")
+				self.path = []
+				while current != None:
+					self.path.append(current)
+					current = current.parent
 
 			for neighbour in current.neighbours:
 				if ((neighbour not in closedList) and (not neighbour.is_obstacle)):
-					temp_g = current.g + 
+					temp_g = current.g + current.manhattan_dist(neighbour)
+					# frind the distance to neighbour to current node
+
+					newPath_to_node = False
+
+					if (neighbour in openList):
+						if temp_g < neighbour.g:
+							neighbour.g = temp_g
+							newPath_to_node = True
+							neighbour.h = neighbour.manhattan_dist(end)
+							neighbour.f = neighbour.g + neighbour.h
+							neighbour.parent = current
+					else:
+						neighbour.g = temp_g
+						newPath_to_node = True
+						neighbour.h = neighbour.manhattan_dist(end)
+						neighbour.f = neighbour.g + neighbour.h
+						neighbour.parent = current
+						heap.heappush(openList , (neighbour.f , neighbour))
+
+			closedList.append(current)
+
 

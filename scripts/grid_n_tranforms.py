@@ -49,27 +49,7 @@ class grid:
 
 
 
-  def tf_gazebo_to_px(self , gazebo_list):
-
-    scaled_px_list = [-1 * i for i in reversed(gazebo_list)]
-    print(scaled_px_list)
-    px_list = [self.meter_per_pixel * i for i in scaled_px_list]
-    print(px_list)
-    return px_list
-
-  def tf_px_to_gazebo(self , px_list):
-
-    scaled_px_list = [int(i/self.meter_per_pixel) for i in px_list]
-    print("scaled" , scaled_px_list)
-    gazebo_list = [-1 * i for i in reversed(scaled_px_list)]
-    return gazebo_list
-
-  def tf_gazeboTH_to_pxTH(self):
-    pass
-
-  def euclidean_dist(self , point_1 , point_2):
-    return math.dist(point_1 , point_2)
-    
+  
 
 
 # grid1 = grid()

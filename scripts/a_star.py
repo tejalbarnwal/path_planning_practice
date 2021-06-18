@@ -14,7 +14,7 @@ class PathPlanner:
     def __init__(self):
         print("MAPPING INITIALIZING")
         self.grid = grid()
-        
+        self.img_matrix = self.grid.grid.copy()
         # self.grid.add_obstacle()
         
         # list1 = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
@@ -29,7 +29,7 @@ class PathPlanner:
             for y in range(0, self.grid.world_grid_length):
                 self.nodes_matrix[x][y].add_neighbours(self.grid)
 
-        self.start = self.nodes_matrix[0][0]
+        self.start = self.nodes_matrix[1][0]
         # self.theta = theta
         self.goal = self.nodes_matrix[5][5]
         print("MAP DONE! PLANNING INITIALIZING")
@@ -56,7 +56,7 @@ class PathPlanner:
             # q is node object with x,y theta
             current = heap.heappop(openList)[1]
 
-            if (current == end):
+            if (current.x == end.x and current.y == end.y):
                 print("PATH PLANNED")
                 self.path = []
                 while current != None:
@@ -64,9 +64,9 @@ class PathPlanner:
                     current = current.parent
 
             for neighbour in current.neighbours:
-                print(neighbour.is_obstacle)
+                # print(neighbour.is_obstacle)
                 if ((neighbour not in closedList) and (not neighbour.is_obstacle)):
-                    temp_g = current.g + current.manhattan_dist(neighbour)
+                    temp_g = current.g + current.manhattan_dist(neighbour.node_gazebo_list)
                     # frind the distance to neighbour to current node
 
                     newPath_to_node = False
@@ -75,13 +75,13 @@ class PathPlanner:
                         if temp_g < neighbour.g:
                             neighbour.g = temp_g
                             newPath_to_node = True
-                            neighbour.h = neighbour.manhattan_dist(end)
+                            neighbour.h = neighbour.manhattan_dist(end.node_gazebo_list)
                             neighbour.f = neighbour.g + neighbour.h
                             neighbour.parent = current
                     else:
                         neighbour.g = temp_g
                         newPath_to_node = True
-                        neighbour.h = neighbour.manhattan_dist(end)
+                        neighbour.h = neighbour.manhattan_dist(end.node_gazebo_list)
                         neighbour.f = neighbour.g + neighbour.h
                         neighbour.parent = current
                         heap.heappush(openList , (neighbour.f , neighbour))
@@ -90,12 +90,15 @@ class PathPlanner:
 
             for spot_gz in openList:
                 spot_px = spot_gz[1].tf_gazebo_to_px(grid.meter_per_pixel)
-                grid[spot_px[0],spot_px[1]] = 100
+                self.img_matrix[spot_px[0],spot_px[1]] = 100/255.
 
             for spot_gz in closedList:
-                spot_px = spot_gz[1].tf_gazebo_to_px(grid.meter_per_pixel)
-                grid[spot_px[0],spot_px[1]] = 200
+                spot_px = spot_gz.tf_gazebo_to_px(grid.meter_per_pixel)
+                self.img_matrix[spot_px[0],spot_px[1]] = 200/255.
 
+            # img = cv2.resize(self.img_matrix.astype("float") , (400,400))
+            # cv2.imshow("open and close" , img)
+            print(neighbour.node_gazebo_list)
 
 yo = PathPlanner()
 #print(yo.nodes_matrix[0][0].is_obstacle)

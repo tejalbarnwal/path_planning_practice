@@ -14,7 +14,7 @@ class grid:
     self.world_grid_length = 10
     self.world_grid_width = 10
 
-    self.meter_per_pixel = int(self.grid_length / self.world_grid_length)
+    self.meter_per_pixel = int(self.grid_length / self.world_grid_length) # it is actually pixels per meter shitttt mannn
 
     self.grid = np.ones((self.grid_length , self.grid_width))
     #print(self.grid)

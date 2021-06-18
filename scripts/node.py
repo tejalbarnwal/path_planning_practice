@@ -39,9 +39,9 @@ class Node:
   def tf_gazebo_to_px(self , meter_per_pixel):
 
     scaled_px_list = [-1 * i for i in reversed(self.node_gazebo_list)]
-    print("scaled px list" , scaled_px_list)
+    #print("scaled px list" , scaled_px_list)
     px_list = [meter_per_pixel * i for i in scaled_px_list]
-    print("px list" ,px_list)
+    #print("px list" ,px_list)
     return px_list
 
   def tf_px_to_gazebo(self , meter_per_pixel):
@@ -58,31 +58,42 @@ class Node:
     return math.dist(self.node_gazebo_list , point_2)
 
   def manhattan_dist(self ,point_2):
-    return abs(self.node_gazebo_list[0] - point_2[0]) + abs(self.node_gazebo_list[0] - point_2[0])
+    # print(point_2)
+    # print("yo")
+    return abs(self.x - point_2[0]) + abs(self.y - point_2[1])
 
   def add_neighbours(self , grid):
-    i = self.node_pixel_list[0]
-    j = self.node_pixel_list[1]
+    i = self.x
+    j = self.y
+    # print("gazebo coord" , i , j)
 
-    if (i < grid.grid_length - 1):
-      nextnode_pixel_list = [i+1 , j]
-      nextnode_gazebo_list = self.tf_px_to_gazebo(grid.meter_per_pixel)
-      self.neighbours.append(Node(nextnode_gazebo_list[0] , nextnode_gazebo_list[1]))
+    if (-i < grid.world_grid_length - 1):
+      # nextnode_pixel_list = [i+1 , j]
+      # nextnode_gazebo_list = self.tf_px_to_gazebo(grid.meter_per_pixel)
+      # print("case1" , nextnode_gazebo_list)
+      self.neighbours.append(Node(i-1 , j))
+      # print("1")
 
-    if (i > 0):
-      nextnode_pixel_list = [i-1 , j]
-      nextnode_gazebo_list = self.tf_px_to_gazebo(grid.meter_per_pixel)
-      self.neighbours.append(Node(nextnode_gazebo_list[0] , nextnode_gazebo_list[1]))
+    if (-i > 0):
+      # nextnode_pixel_list = [i-1 , j]
+      # nextnode_gazebo_list = self.tf_px_to_gazebo(grid.meter_per_pixel)
+      #print("case1" , nextnode_gazebo_list)
+      self.neighbours.append(Node(i+1 , j))
+      # print("2")
 
-    if (j < grid.grid_width - 1):
-      nextnode_pixel_list = [i , j+1]
-      nextnode_gazebo_list = self.tf_px_to_gazebo(grid.meter_per_pixel)
-      self.neighbours.append(Node(nextnode_gazebo_list[0] , nextnode_gazebo_list[1]))
+    if (-j < grid.world_grid_width - 1):
+      # nextnode_pixel_list = [i , j+1]
+      # nextnode_gazebo_list = self.tf_px_to_gazebo(grid.meter_per_pixel)
+      # print("case1" , nextnode_gazebo_list)
+      self.neighbours.append(Node(i , j-1))
+      # print("3")
 
-    if (j > 0):
-      nextnode_pixel_list = [i , j-1]
-      nextnode_gazebo_list = self.tf_px_to_gazebo(grid.meter_per_pixel)
-      self.neighbours.append(Node(nextnode_gazebo_list[0] , nextnode_gazebo_list[1]))
+    if (-j > 0):
+      # nextnode_pixel_list = [i , j-1]
+      # nextnode_gazebo_list = self.tf_px_to_gazebo(grid.meter_per_pixel)
+      # print("case1" , nextnode_gazebo_list)
+      self.neighbours.append(Node(i , j+1))
+      # print("4")
 
 
 
@@ -99,15 +110,19 @@ class Node:
 
 
 
-# list1 = [0,1,2,3,4,5,6,7,8,9]
-#         # making nodes
-# nodes_matrix = np.full((15,15) , Node(0,0))
-# for x in list1:
-#     for y in list1:
-#         nodes_matrix[x][y] = Node(-x,-y)
-# print("##############################################################")
+list1 = [0,1,2,3,4,5,6,7,8,9]
+        # making nodes
+nodes_matrix = np.full((10,10) , Node(0,0))
+for x in list1:
+    for y in list1:
+        nodes_matrix[x][y] = Node(-x,-y)
+print("##############################################################")
 # print(nodes_matrix[0][0].node_pixel_list)
 
-# for x in list1:
-#   for y in list1:
-#       nodes_matrix[x][y].add_neighbours(grid)
+for x in list1:
+  for y in list1:
+      nodes_matrix[x][y].add_neighbours(grid)
+
+print("neighbours")
+for i in nodes_matrix[9][0].neighbours:
+  print(i.x , i.y , "done")

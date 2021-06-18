@@ -110,19 +110,19 @@ class Node:
 
 
 
-list1 = [0,1,2,3,4,5,6,7,8,9]
-        # making nodes
-nodes_matrix = np.full((10,10) , Node(0,0))
-for x in list1:
-    for y in list1:
-        nodes_matrix[x][y] = Node(-x,-y)
-print("##############################################################")
-# print(nodes_matrix[0][0].node_pixel_list)
+# list1 = [0,1,2,3,4,5,6,7,8,9]
+#         # making nodes
+# nodes_matrix = np.full((10,10) , Node(0,0))
+# for x in list1:
+#     for y in list1:
+#         nodes_matrix[x][y] = Node(-x,-y)
+# print("##############################################################")
+# # print(nodes_matrix[0][0].node_pixel_list)
 
-for x in list1:
-  for y in list1:
-      nodes_matrix[x][y].add_neighbours(grid)
+# for x in list1:
+#   for y in list1:
+#       nodes_matrix[x][y].add_neighbours(grid)
 
-print("neighbours")
-for i in nodes_matrix[9][0].neighbours:
-  print(i.x , i.y , "done")
+# print("neighbours")
+# for i in nodes_matrix[1][0].neighbours:
+#   print(i.x , i.y , "done")

@@ -30,10 +30,13 @@ class Node:
     # self.add_neighbours(grid)
 
     # print(grid[self.node_pixel_list[0] , self.node_pixel_list[1]])
-    if grid[int(self.node_pixel_list[0]) , int(self.node_pixel_list[1])] == 1:
-      self.is_obstacle = False
-    else:
-      self.is_obstacle = True
+    for i in range(self.node_pixel_list[0] , self.node_pixel_list[0] + grid.meter_per_pixel):
+      for j in range(self.node_pixel_list[1] , self.node_pixel_list[1] + grid.meter_per_pixel):
+        if grid[j,i] == 0:
+          self.is_obstacle = True
+          break
+        else:
+          self.is_obstacle = False
 
 
   def tf_gazebo_to_px(self , meter_per_pixel):

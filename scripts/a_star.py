@@ -39,7 +39,7 @@ class PathPlanner:
 
         self.start = self.nodes_matrix[0][0]
         # self.theta = theta
-        self.goal = self.nodes_matrix[99][99]
+        self.goal = self.nodes_matrix[199][199]
         print("MAP DONE! PLANNING INITIALIZING")
         self.path = None
 
@@ -62,7 +62,7 @@ class PathPlanner:
         print("OPENLIST:",openList)
         print("STARTING LOOP")
         print("                            ")
-
+        self.iterator = 0
 
         while openList:
             print("---------------------------------------------------------")
@@ -98,6 +98,7 @@ class PathPlanner:
             current.add_neighbours(self.grid)
             for neighbour in current.neighbours:
                 #print("neighbour coord" ,neighbour.x ,neighbour.y)
+                print(neighbour.is_obstacle)
                 if ((neighbour not in closedList) and (not neighbour.is_obstacle)):
                     temp_g = current.g + current.manhattan_dist(neighbour.node_gazebo_list)
                     # frind the distance to neighbour to current node
@@ -123,7 +124,7 @@ class PathPlanner:
                     #print("OPEN-LIST:",openList)
 
             closedList.append(current)
-
+        
            
             #print("CLOSED-LIST:",closedList)
             
@@ -133,7 +134,7 @@ class PathPlanner:
                 spot_px = spot_gz[1].tf_gazebo_to_px(grid.meter_per_pixel)
                 # self.img_matrix[spot_px[0],spot_px[1]] = 100/255.
                 self.img_matrix[spot_px[1]: grid.meter_per_pixel + spot_px[1]
-                                                      , spot_px[0]: grid.meter_per_pixel + spot_px[0]] = 50/255.
+                                                      , spot_px[0]: grid.meter_per_pixel + spot_px[0]] = 100/255.
                 #print("spot in px",spot_px)
                 # print("SHAPPPPPPEEEE",self.img_matrix.shape)
             for spot_gz in closedList:
@@ -143,13 +144,29 @@ class PathPlanner:
                                                       , spot_px[0]: grid.meter_per_pixel + spot_px[0]] = 150/255.
 
             # img = cv2.resize(self.img_matrix.astype("float"))
-            cv2.imshow("open" , self.img_matrix.astype("float"))
+            cv2.imshow("open&close" , self.img_matrix.astype("float"))
             #print(neighbour.node_gazebo_list)
             # time.sleep(1)
+            self.path = []
+            while current != None:
+                self.path.append(current)
+                current = current.parent
+            for i in self.path:
+                print(i.x , i.y)
+                spot_px = i.tf_gazebo_to_px(grid.meter_per_pixel)
+                # self.img_matrix[spot_px[0],spot_px[1]] = 200/255.
+                self.img_matrix[spot_px[1]: grid.meter_per_pixel + spot_px[1]
+                                                      , spot_px[0]: grid.meter_per_pixel + spot_px[0]] = 210/255.
+
+                cv2.imshow("path" , self.img_matrix.astype("float"))
+
+
             if cv2.waitKey(1) == ord("q"):
                 cv2.destroyAllWindows()
-
+            # time.sleep(1)
+            print(self.iterator)
             print("---------------------------------------------------------")
+            self.iterator = self.iterator + 1
 
 yo = PathPlanner()
 #print(yo.nodes_matrix[0][0].is_obstacle)

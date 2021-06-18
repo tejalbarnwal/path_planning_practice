@@ -11,12 +11,13 @@ class grid:
     self.grid_length = 500
     self.grid_width = 500
 
-    self.world_grid_length = 100
-    self.world_grid_width = 100
+    self.world_grid_length = 200
+    self.world_grid_width = 200
 
     self.meter_per_pixel = int(self.grid_length / self.world_grid_length) # it is actually pixels per meter shitttt mannn
 
     self.grid = np.ones((self.grid_length , self.grid_width))
+    self.add_obstacles()
     cv2.imshow("original",self.grid.astype("float"))
     #print(self.grid)
 
@@ -26,23 +27,23 @@ class grid:
 
   def add_obstacles(self):
 
-    self.obstacle_1_ul_lr = [(1,1) , (4,4)]
-    self.obstacle_2_ul_lr = [(5,0) , (8,3)]
-    self.obstacle_3_ul_lr = [(4,4) , (9,7)]
-    self.obstacle_4_ul_lr = [(0,5) , (4,7)]
+    obstacle_1_ul_lr = [(10,10) , (40,40)]
+    obstacle_2_ul_lr = [(50,0) , (80,30)]
+    obstacle_3_ul_lr = [(40,40) , (80,90)]
+    obstacle_4_ul_lr = [(0,50) , (30,70)]
     
     #print(obstacle_1_ul_lr[0][0] , obstacle_1_ul_lr[1][0])
-    self.grid[meter_per_pixel * obstacle_1_ul_lr[0][1]: meter_per_pixel * obstacle_1_ul_lr[1][1] 
-                                                      , meter_per_pixel * obstacle_1_ul_lr[0][0]: meter_per_pixel * obstacle_1_ul_lr[1][0]] = 0
+    self.grid[self.meter_per_pixel * obstacle_1_ul_lr[0][1]: self.meter_per_pixel * obstacle_1_ul_lr[1][1] 
+                                                      , self.meter_per_pixel * obstacle_1_ul_lr[0][0]: self.meter_per_pixel * obstacle_1_ul_lr[1][0]] = 0
     
-    self.grid[meter_per_pixel * obstacle_2_ul_lr[0][1]: meter_per_pixel * obstacle_2_ul_lr[1][1] 
-                                                      , meter_per_pixel * obstacle_2_ul_lr[0][0]: meter_per_pixel * obstacle_2_ul_lr[1][0]] = 0
+    self.grid[self.meter_per_pixel * obstacle_2_ul_lr[0][1]: self.meter_per_pixel * obstacle_2_ul_lr[1][1] 
+                                                      , self.meter_per_pixel * obstacle_2_ul_lr[0][0]: self.meter_per_pixel * obstacle_2_ul_lr[1][0]] = 0
 
-    self.grid[meter_per_pixel * obstacle_3_ul_lr[0][1]: meter_per_pixel * obstacle_3_ul_lr[1][1] 
-                                                      , meter_per_pixel * obstacle_3_ul_lr[0][0]: meter_per_pixel * obstacle_3_ul_lr[1][0]] = 0
+    self.grid[self.meter_per_pixel * obstacle_3_ul_lr[0][1]: self.meter_per_pixel * obstacle_3_ul_lr[1][1] 
+                                                      , self.meter_per_pixel * obstacle_3_ul_lr[0][0]: self.meter_per_pixel * obstacle_3_ul_lr[1][0]] = 0
 
-    self.grid[meter_per_pixel * obstacle_4_ul_lr[0][1]: meter_per_pixel * obstacle_4_ul_lr[1][1] 
-                                                      , meter_per_pixel * obstacle_4_ul_lr[0][0]: meter_per_pixel * obstacle_4_ul_lr[1][0]] = 0
+    self.grid[self.meter_per_pixel * obstacle_4_ul_lr[0][1]: self.meter_per_pixel * obstacle_4_ul_lr[1][1] 
+                                                      , self.meter_per_pixel * obstacle_4_ul_lr[0][0]: self.meter_per_pixel * obstacle_4_ul_lr[1][0]] = 0
 
  
   def show_grid(self , window_name):
@@ -56,7 +57,7 @@ class grid:
 
 
 # grid1 = grid()
-# grid1.show_grid("1")
+# #grid1.show_grid("1")
 # if cv2.waitKey(0) == ord("q"):
 #       cv2.destroyAllWindows()
 # list1 = [250,0]

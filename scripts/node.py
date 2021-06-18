@@ -2,6 +2,7 @@
 
 import math
 from grid_n_transforms import grid
+import numpy as np
 
 SIMILARITY_THRESHOLD = 0.1
 SAFETY_OFFSET = 5  #no.of pixels away from the wall the robot should remain
@@ -10,12 +11,12 @@ SAFETY_OFFSET = 5  #no.of pixels away from the wall the robot should remain
 grid = grid()
 
 class Node:
-  def __init__(self , coordinate_list , parent=None):
+  def __init__(self , x , y , parent=None):
 
-    self.x = coordinate_list[0]
-    self.y = coordinate_list[1]
+    self.x = x
+    self.y = y
 
-    self.node_gazebo_list = coordinate_list
+    self.node_gazebo_list = [x,y]
     self.node_pixel_list = self.tf_gazebo_to_px(grid.meter_per_pixel)
 
     # self.theta = theta
@@ -29,7 +30,7 @@ class Node:
     # self.add_neighbours(grid)
 
     # print(grid[self.node_pixel_list[0] , self.node_pixel_list[1]])
-    if grid[self.node_pixel_list[0] , self.node_pixel_list[1]] == 1:
+    if grid[int(self.node_pixel_list[0]) , int(self.node_pixel_list[1])] == 1:
       self.is_obstacle = False
     else:
       self.is_obstacle = True
@@ -38,9 +39,9 @@ class Node:
   def tf_gazebo_to_px(self , meter_per_pixel):
 
     scaled_px_list = [-1 * i for i in reversed(self.node_gazebo_list)]
-    #print(scaled_px_list)
+    print("scaled px list" , scaled_px_list)
     px_list = [meter_per_pixel * i for i in scaled_px_list]
-    #print(px_list)
+    print("px list" ,px_list)
     return px_list
 
   def tf_px_to_gazebo(self , meter_per_pixel):
@@ -66,24 +67,47 @@ class Node:
     if (i < grid.grid_length - 1):
       nextnode_pixel_list = [i+1 , j]
       nextnode_gazebo_list = self.tf_px_to_gazebo(grid.meter_per_pixel)
-      self.neighbours.append(Node(nextnode_gazebo_list))
+      self.neighbours.append(Node(nextnode_gazebo_list[0] , nextnode_gazebo_list[1]))
 
     if (i > 0):
       nextnode_pixel_list = [i-1 , j]
       nextnode_gazebo_list = self.tf_px_to_gazebo(grid.meter_per_pixel)
-      self.neighbours.append(Node(nextnode_gazebo_list))
+      self.neighbours.append(Node(nextnode_gazebo_list[0] , nextnode_gazebo_list[1]))
 
     if (j < grid.grid_width - 1):
       nextnode_pixel_list = [i , j+1]
       nextnode_gazebo_list = self.tf_px_to_gazebo(grid.meter_per_pixel)
-      self.neighbours.append(Node(nextnode_gazebo_list))
+      self.neighbours.append(Node(nextnode_gazebo_list[0] , nextnode_gazebo_list[1]))
 
     if (j > 0):
       nextnode_pixel_list = [i , j-1]
       nextnode_gazebo_list = self.tf_px_to_gazebo(grid.meter_per_pixel)
-      self.neighbours.append(Node(nextnode_gazebo_list))
+      self.neighbours.append(Node(nextnode_gazebo_list[0] , nextnode_gazebo_list[1]))
 
 
 
-# node = Node([10,10])
+#node = Node(10,10)
 # print(node.is_obstacle)
+
+# self.grid_length = 500
+# self.grid_width = 500
+
+# self.world_grid_length = 10
+# self.world_grid_width = 10
+
+
+
+
+
+# list1 = [0,1,2,3,4,5,6,7,8,9]
+#         # making nodes
+# nodes_matrix = np.full((15,15) , Node(0,0))
+# for x in list1:
+#     for y in list1:
+#         nodes_matrix[x][y] = Node(-x,-y)
+# print("##############################################################")
+# print(nodes_matrix[0][0].node_pixel_list)
+
+# for x in list1:
+#   for y in list1:
+#       nodes_matrix[x][y].add_neighbours(grid)

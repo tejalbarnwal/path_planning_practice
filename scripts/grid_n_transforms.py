@@ -8,11 +8,11 @@ import math
 class grid:
   def __init__(self):
     
-    self.grid_length = 20
-    self.grid_width = 20
+    self.grid_length = 500
+    self.grid_width = 500
 
-    self.world_grid_length = 15
-    self.world_grid_width = 15
+    self.world_grid_length = 10
+    self.world_grid_width = 10
 
     self.meter_per_pixel = int(self.grid_length / self.world_grid_length)
 

@@ -11,12 +11,13 @@ class grid:
     self.grid_length = 500
     self.grid_width = 500
 
-    self.world_grid_length = 10
-    self.world_grid_width = 10
+    self.world_grid_length = 100
+    self.world_grid_width = 100
 
     self.meter_per_pixel = int(self.grid_length / self.world_grid_length) # it is actually pixels per meter shitttt mannn
 
     self.grid = np.ones((self.grid_length , self.grid_width))
+    cv2.imshow("original",self.grid.astype("float"))
     #print(self.grid)
 
   def __getitem__(self , pixel_list):

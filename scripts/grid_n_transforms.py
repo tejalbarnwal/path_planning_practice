@@ -8,16 +8,19 @@ import math
 class grid:
   def __init__(self):
     
-    self.grid_length = 500
-    self.grid_width = 500
+    self.grid_length = 20
+    self.grid_width = 20
 
-    self.world_grid_length = 10
-    self.world_grid_width = 10
+    self.world_grid_length = 15
+    self.world_grid_width = 15
 
     self.meter_per_pixel = int(self.grid_length / self.world_grid_length)
 
     self.grid = np.ones((self.grid_length , self.grid_width))
     #print(self.grid)
+
+  def __getitem__(self , pixel_list):
+    return self.grid[pixel_list[0]][pixel_list[1]]
 
 
   def add_obstacles(self):
@@ -41,11 +44,10 @@ class grid:
                                                       , meter_per_pixel * obstacle_4_ul_lr[0][0]: meter_per_pixel * obstacle_4_ul_lr[1][0]] = 0
 
  
-  def show_grid(self):
-
-    cv2.imshow("grid_window" , self.grid.astype("float"))
-    if cv2.waitKey(0) == ord("q"):
-      cv2.destroyAllWindows()
+  def show_grid(self , window_name):
+    img = cv2.resize(self.grid.astype("float") , (400,400))
+    cv2.imshow(window_name , img)
+    
 
 
 
@@ -53,7 +55,9 @@ class grid:
 
 
 # grid1 = grid()
-# grid1.show_grid()
+# grid1.show_grid("1")
+# if cv2.waitKey(0) == ord("q"):
+#       cv2.destroyAllWindows()
 # list1 = [250,0]
 # print(grid1.tf_px_to_gazebo(list1))
 # print(grid1.tf_gazebo_to_px([-1,0]))

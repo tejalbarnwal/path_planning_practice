@@ -8,11 +8,11 @@ import math
 class grid:
   def __init__(self):
     
-    self.grid_length = 20
-    self.grid_width = 20
+    self.grid_length = 500
+    self.grid_width = 500
 
-    self.world_grid_length = 15
-    self.world_grid_width = 15
+    self.world_grid_length = 10
+    self.world_grid_width = 10
 
     self.meter_per_pixel = int(self.grid_length / self.world_grid_length) # it is actually pixels per meter shitttt mannn
 
@@ -29,7 +29,7 @@ class grid:
 
     obstacle_1_ul_lr = [(1,1) , (4,4)]
     obstacle_2_ul_lr = [(5,0) , (8,3)]
-    obstacle_3_ul_lr = [(10,3) , (11,9)]
+    obstacle_3_ul_lr = [(4,3) , (8,9)]
     obstacle_4_ul_lr = [(0,5) , (3,7)]
     
     #print(obstacle_1_ul_lr[0][0] , obstacle_1_ul_lr[1][0])

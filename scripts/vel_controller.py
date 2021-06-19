@@ -59,15 +59,14 @@ class controller:
             print("goal for now", goal)
             if  abs(goal[0] - self.x) >= 0.01:
                     print("A")
-                    while abs(self.theta - (math.atan2(goal[1] - self.y , goal[0] - self.x))) <= 0.001:
+                    print("theta" , self.theta)
+                    print("tan" ,math.atan2(goal[1] - self.y , goal[0] - self.x))
+                    while abs(self.theta - (math.atan2(goal[1] - self.y , goal[0] - self.x))) >= 0.01:
                         print("B")
-                        if (goal[1] - self.y) * (goal[0] - self.x) < 0:
-                            self.vel_cmd.angular.z = -0.05
-                            print("C")
-
-                        else:
-                            self.vel_cmd.angular.z = 0.05
-                            print("D")
+                        print("theta" , self.theta)
+                        print("tan" ,math.atan2(goal[1] - self.y , goal[0] - self.x))
+                        self.vel_cmd.angular.z = (self.theta - (math.atan2(goal[1] - self.y , goal[0] - self.x))) * -0.5
+                        print("D")
 
                         self.vel_cmd.linear.x = 0.0
 
@@ -80,7 +79,7 @@ class controller:
 
 
                     while abs(goal[0] - self.x) >= 0.001:
-                        self.vel_cmd.linear.x = (goal[0] - self.x) * 1.0
+                        self.vel_cmd.linear.x = abs(goal[0] - self.x) * 1.0
                         self.vel_cmd.angular.x = 0.0
                         print("F1")
 
@@ -99,7 +98,7 @@ class controller:
                     print("B11")
                     print("theta" , self.theta)
                     print("tan" ,math.atan2(goal[1] - self.y , goal[0] - self.x))
-                    self.vel_cmd.angular.z = (self.theta - (math.atan2(goal[1] - self.y , goal[0] - self.x))) * -0.1
+                    self.vel_cmd.angular.z = (self.theta - (math.atan2(goal[1] - self.y , goal[0] - self.x))) * -0.5
                     print("D11")
 
                     self.vel_cmd.linear.x = 0.0
@@ -113,7 +112,7 @@ class controller:
 
 
                 while abs(goal[1] - self.y) >= 0.001:
-                    self.vel_cmd.linear.x = (goal[1] - self.y) * 0.5
+                    self.vel_cmd.linear.x = abs(goal[1] - self.y) * 1.0
                     self.vel_cmd.angular.x = 0.0
                     print("F11")
 
@@ -128,6 +127,6 @@ class controller:
             
 
 
-path_goals = [[0,1]]
+path_goals = [[0,-1], [-1,-1]]
 teju_control = controller(path_goals)
 teju_control.control_it()
